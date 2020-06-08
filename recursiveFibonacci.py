@@ -8,10 +8,10 @@ def recursiveFibonacci(n):
     
     if type(n) != int:
         raise TypeError("Parameter must be a positive integer.")
-    elif n < 1:
+    if n < 1:
         raise ValueError("Parameter must be a positive integer.")
     
-    if n <= 2:
+    elif n <= 2:
         return 1 
     return recursiveFibonacci(n-1) + recursiveFibonacci(n-2)
 

@@ -20,14 +20,14 @@ def fibonacci(n):
     term_one = 1 
     term_two = 1 
     
-    print(term_one)
-    print(term_two)
+    print("1: ", term_one)
+    print("2: ",term_two)
     
     # Range to the n-2 term because the function already returns 2 terms
     # from a sequence of n. It must return the other n-2 terms.
-    for i in range(1, n-2):
+    for i in range(3, n-2):
         sum = term_one + term_two
-        print(sum)
+        print(str(i) + ": ", sum)
         
         term_one = term_two
         term_two = sum

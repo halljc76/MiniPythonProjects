@@ -1,6 +1,9 @@
 import time # Check elapsed time for running function.
 
 def fibonacci(n):
+    """Function to print out the first n-terms of the Fibonacci Sequence.
+       This does not utilize the principles of recursion, as is common with Fibonacci algorithms."""
+    
     start = time.time()
     
     # If parameter is not an integer.

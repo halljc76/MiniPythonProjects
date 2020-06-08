@@ -28,7 +28,7 @@ def fibonacci(n):
     
     # Range to the n-2 term because the function already returns 2 terms
     # from a sequence of n. It must return the other n-2 terms.
-    for i in range(3, n-2):
+    for i in range(3, n+1):
         sum = term_one + term_two
         print(str(i) + ": ", sum)
         

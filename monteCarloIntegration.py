@@ -4,6 +4,7 @@ import random
 import math 
 
 """
+June 8th Update:
 Working to add matplotlib graph to show statistical distribution of the area being computed 30+ times, per CLT.
 """
 

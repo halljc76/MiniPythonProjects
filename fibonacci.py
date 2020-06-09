@@ -26,8 +26,9 @@ def fibonacci(n):
     print("1: ", term_one)
     print("2: ",term_two)
     
-    # Range to the n-2 term because the function already returns 2 terms
+    # Range of n-2 terms because the function already returns 2 terms
     # from a sequence of n. It must return the other n-2 terms.
+    # Note that n+1 - 3 + 2 = n - 2 + 2 = n, the length of the Fibonacci sequence.
     for i in range(3, n+1):
         sum = term_one + term_two
         print(str(i) + ": ", sum)

@@ -1,6 +1,11 @@
 import copy
 import random
 
+"""
+Update Jun 10th: Continue debugging computer's setup method.
+                 Make the blank boards serve as 'overlaps' for the actual compuer board.
+                 Make sure the program marks ALL computer hits.
+"""
 
 hasWon = False
 rows = [1,2,3,4,5]
@@ -111,19 +116,36 @@ def playerConfigure(player_board):
 def computerConfigure(computer_board):
     remainingPositions = [(i, j) for i in rows for j in columns]
     takenPositions = []
-    
+    validPositionFound = False
+
     lengths = [1,1,2,3]
     ships = ["S", "S", "D", "B"]
     
     print("The computer will now set up its board.")
     for i in range(len(lengths)):
         rotateOrNot = random.choice([True, False])
-        randPosition = random.choice(remainingPositions)
-        remainingPositions.remove(randPosition)
+        
+        while not validPositionFound:        
+            randPosition = random.choice(remainingPositions)
+            print(randPosition)
+            print(remainingPositions)
+            randRow = randPosition[0]
+            randCol = randPosition[1]
+
+            if ((randRow + lengths[i] - 1 > 5) and rotateOrNot) or ((randCol + lengths[i] - 1 > 5) and not rotateOrNot):
+                pass
+            else:
+                validPositionFound = True
+
+        print(randPosition in remainingPositions)
+        newRemaining = [] # Continued receiving error with remove function here. Had to make a workaround.
+        for position in remainingPositions:
+            if position != randPosition:
+                newRemaining.append(position)
+        remainingPositions = newRemaining
         takenPositions.append(randPosition)
 
-        randRow = randPosition[0]
-        randCol = randPosition[1]
+        
 
         start = (5 * (randRow - 1)) + (randCol - 1) 
         computer_board[start] = ships[i]
@@ -177,7 +199,7 @@ def computerMove(player_board, player_positions):
     while True:
         randPosition = random.choice(remainingPositions)
         remainingPositions.remove(randPosition)
-        calledPositions.add(randPosition)
+        calledPositions.append(randPosition)
 
         if randPosition in player_positions:
             print("Computer has landed a hit!")
@@ -208,13 +230,10 @@ def checkSunkOrWin(playerOrComputer, board):
         hasWon = True
         return "The " + str(playerOrComputer) + "has won the game!"
     elif (numSub == 0):
-        print("All of the submarines on this board have been sunk!")
         numSub == -1
     elif (numDest == 0):
-        print("All of the destroyers on this board have been sunk!")
         numDest == -1
     elif (numBattle == 0):
-        print("All of the battleships on this board have been sunk!")
         numBattle == -1
 
 def main():

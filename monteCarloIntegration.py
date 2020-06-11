@@ -1,11 +1,11 @@
-# import matplotlib.pyplot as plt
-# import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np
 import random
 import math 
 
 """
 June 8th Update:
-Working to add matplotlib graph to show statistical distribution of the area being computed 30+ times, per CLT.
+Testing matplotlib, possibility of using sympy to make output more professional.
 """
 
 def function(reference, x):
@@ -48,14 +48,22 @@ def limits(reference):
             lower = int(input("Please input an integer 0-50, inclusive."))
     else:
         try:
-            lower = input("Please input 'pi' or 'e' for your irrational limit.")
-            if lower == 'pi':
-                lower = math.pi
-            elif lower == 'e':
-                lower = math.e
-        except lower not in irrationalLimits or TypeError:
+            irrational = input("Please input a factor of 'pi' or 'e' in your limit.")
+            lower = input("Please input a factor for this limit (integer).")
+            try:
+                lower = int(lower)
+            except int(lower) not in integerLimits or TypeError:
+                print("Invalid factor for the irrational limit.")
+                lower = input("Please input a factor for this limit (integer).")
+            lower = float(lower)
+
+            if irrational == 'pi':
+                lower = lower * math.pi
+            elif irrational == 'e':
+                lower = lower * math.e
+        except irrational not in irrationalLimits or TypeError:
             print("Invalid lower limit.")
-            lower = int(input("Please input 'pi' or 'e' for your irrational limit."))
+            irrational = input("Please input 'pi' or 'e' for your irrational limit.")
 
     limitChosen = False
     
@@ -94,15 +102,27 @@ def limits(reference):
 
 def integration(reference, lower, upper, numPoints):
     integral = 0.0
-    randomVals = [] 
+    randomVals = np.zeros(numPoints) 
     for i in range(numPoints):
-        randomVals.append(random.uniform(lower, upper))
+        randomVals[i] = (random.uniform(lower, upper))
 
     for value in randomVals:
         integral += function(reference, value)
     
     area = ((upper - lower) / float(numPoints)) * integral 
     return area
+
+def plot(stringFunctions, numPoints, upper, lower, reference):
+    areas = []
+
+    for i in range(numPoints):
+        areas.append(integration(reference, lower, upper, numPoints))
+    
+    plt.hist(areas, bins = int(math.sqrt(numPoints)), ec = 'black')
+    plt.title("Distribution of Estimated Areas of " + stringFunctions[reference] + " from " + str(lower) + " to " + str(upper) + ".")
+    plt.xlabel("Area (units)")
+    plt.ylabel("Number of Calculations Within Bin")
+    plt.show()
 
 def main():
     print("Basic Monte-Carlo Integration Program:")
@@ -128,8 +148,9 @@ def main():
     lower, upper = limits(reference)
     while (lower > upper):
         print("Your upper limit exceeded your lower limit. Let's choose the limits again.")
-        lower, upper = limits()
-    area = integration(reference, lower, upper, numPoints)
-    print("The area from " + str(lower) + " to " + str(upper) + " of " + stringFunctions[reference] + " is " + str(area))
+        lower, upper = limits(reference)
+    
+    plot(stringFunctions, numPoints, upper, lower, reference)
+    
 
 main()

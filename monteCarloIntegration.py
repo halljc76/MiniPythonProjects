@@ -6,6 +6,7 @@ import math
 """
 June 8th Update:
 Testing matplotlib, possibility of using sympy to make output more professional.
+Testing irrational limit when multiplied by integer factor. Need to extend to upper limit.
 """
 
 def function(reference, x):

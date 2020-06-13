@@ -23,7 +23,7 @@ end = time.time()
 print(end - start)
 
 # Testing function
-fibonacci(-1) # Invokes ValueError
-fibonacci("three") # Invokes TypeError
-fibonacci(1) # Equivalent to fibonacci(2), returns 1
-fibonacci(1000) # Example of Valid Function Call
+recursiveFibonacci(-1) # Invokes ValueError
+recursiveFibonacci("three") # Invokes TypeError
+recursiveFibonacci(1) # Equivalent to fibonacci(2), returns 1
+recursiveFibonacci(250) # Example of Valid Function Call

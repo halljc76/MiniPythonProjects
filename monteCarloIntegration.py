@@ -160,7 +160,7 @@ def main():
     print("'4' --> Rational (1/x)")
     print("'5' --> Sine")
     print("'6' --> Cosine")
-
+    
     stringFunctions = {1: '$x$', 2: "$x^{2}$", 3: "$x^{3}$", 4: "$1/x$", 5:"$sin(x)$", 6:"$cos(x)$"}
 
     choice = input("Choose a number 1-6, inclusive, according to which function you would like to use:")
@@ -171,8 +171,6 @@ def main():
     numPoints = 1000
 
     lower, upper, lowerString, upperString = limits(reference)
-    print(lowerString)
-    print(upperString)
     while (lower > upper):
         print("Your lower limit exceeded your upper limit. Let's choose the limits again.")
         lower, upper = limits(reference)

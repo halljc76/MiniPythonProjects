@@ -3,11 +3,6 @@ import numpy as np
 import random
 import math 
 
-"""
-June 8th Update:
-Testing matplotlib, possibility of using sympy to make output more professional.
-Testing irrational limit when multiplied by integer factor. Need to extend to upper limit.
-"""
 
 def function(reference, x):
     functions = {1: x, 2: x**2, 3: x**3, 4: 1/x, 5: math.sin(x), 6: math.cos(x)}
@@ -22,6 +17,9 @@ def limits(reference):
         integerLimits = [i for i in range(0,51)]
     irrationalLimits = [math.pi, math.e]
     limitChosen = False
+    resetLimitChosen = False
+    upperString = ''
+    lowerString = ''
 
     while not limitChosen:
         lower_choice = input("Please input '1' for an integer limit or '2' for an irrational limit.")
@@ -32,43 +30,47 @@ def limits(reference):
             lower_choice = input("Please input '1' for an integer limit or '2' for an irrational limit.")
 
         if lower_choice not in [1,2]:
-           print(limitChosen)
-           print("Invalid choice.")
+            print("Invalid choice.")
         
         else:
             limitChosen = True
         
-    if int(lower_choice) == 1:
-        try:
-            if reference == 4:
-                lower = int(input("Please input an integer 1-50, inclusive."))
-            else:
-                lower = int(input("Please input an integer 0-50, inclusive."))
-        except int(lower) not in integerLimits or TypeError:
-            print("Invalid lower limit.")
-            lower = int(input("Please input an integer 0-50, inclusive."))
-    else:
-        try:
-            irrational = input("Please input a factor of 'pi' or 'e' in your limit.")
-            lower = input("Please input a factor for this limit (integer).")
+    while limitChosen:
+        if int(lower_choice) == 1:
             try:
-                lower = int(lower)
+                if reference == 4:
+                    lower = int(input("Please input an integer 1-50, inclusive."))
+                else:
+                    lower = int(input("Please input an integer 0-50, inclusive."))
             except int(lower) not in integerLimits or TypeError:
-                print("Invalid factor for the irrational limit.")
+                print("Invalid lower limit.")
+                lower = int(input("Please input an integer 0-50, inclusive."))
+            
+            limitChosen = resetLimitChosen
+            lowerString = '$' + str(lower) + '$'
+        else:
+            try:
+                irrational = input("Please input 'pi' or 'e' in your limit.")
                 lower = input("Please input a factor for this limit (integer).")
-            lower = float(lower)
+                try:
+                    lower = int(lower)
+                except int(lower) not in integerLimits or TypeError:
+                    print("Invalid factor for the irrational limit.")
+                    lower = input("Please input a factor for this limit (integer).")
+                integer = lower
+                lower = float(lower)
 
-            if irrational == 'pi':
-                lower = lower * math.pi
-            elif irrational == 'e':
-                lower = lower * math.e
-        except irrational not in irrationalLimits or TypeError:
-            print("Invalid lower limit.")
-            irrational = input("Please input 'pi' or 'e' for your irrational limit.")
-
-    limitChosen = False
-    
-
+                if irrational == 'pi':
+                    lower = lower * math.pi
+                    lowerString = '$' + str(integer) + 'pi$'
+                    limitChosen = resetLimitChosen
+                elif irrational == 'e':
+                    lower = lower * math.e
+                    lowerString = '$' + str(integer) + 'e$'
+                    limitChosen = resetLimitChosen
+            except irrational not in irrationalLimits or TypeError:
+                print("Invalid lower limit.")
+            
     while not limitChosen:
         upper_choice = input("Please input '1' for an integer limit or '2' for an irrational limit.")
         try:
@@ -80,26 +82,48 @@ def limits(reference):
         if upper_choice not in [1,2]:
             print("Invalid choice.")
     
-    if int(upper_choice) == 1:
-        try:
-            if reference == 4:
-                upper = int(input("Please input an integer 1-50, inclusive."))
-            else:
+    while limitChosen:
+        if int(upper_choice) == 1:
+            try:
+                if reference == 4:
+                    upper = int(input("Please input an integer 1-50, inclusive."))
+                else:
+                    upper = int(input("Please input an integer 0-50, inclusive."))
+            except int(upper) not in integerLimits or TypeError:
+                print("Invalid upper limit.")
                 upper = int(input("Please input an integer 0-50, inclusive."))
-        except int(upper) not in integerLimits or TypeError:
-            print("Invalid upper limit.")
-            lower = int(input("Please input an integer 0-50, inclusive."))
-    else:
-        try:
-            upper = input("Please input 'pi' or 'e' for your irrational limit.")
-            if upper == 'pi':
-                upper = math.pi
-            elif upper == 'e':
-                upper = math.e
-        except upper not in irrationalLimits or TypeError:
-            print("Invalid upper limit.")
-            lower = int(input("Please input 'pi' or 'e' for your irrational limit."))
-    return lower, upper
+            
+            limitChosen = resetLimitChosen
+            upperString = '$' + str(upper) + '$'
+            
+        else:
+            try:
+                irrational = input("Please input 'pi' or 'e' in your limit.")
+                upper = input("Please input a factor for this limit (integer).")
+                
+                try:
+                    upper = int(upper)
+                except int(lower) not in integerLimits or TypeError:
+                    print("Invalid factor for the irrational limit.")
+                    upper = input("Please input a factor for this limit (integer).")
+                integer = upper
+                upper = float(upper)
+
+                if irrational == 'pi':
+                    upper = upper * math.pi
+                    upperString = '$' + str(integer) + 'pi$'
+                    
+                    limitChosen = resetLimitChosen
+                elif irrational == 'e':
+                    upper = upper * math.e
+                    upperString = '$' + str(integer) + 'e$'
+                    limitChosen = resetLimitChosen
+
+            except irrational not in irrationalLimits or TypeError:
+                print("Invalid lower limit.")
+            
+
+    return lower, upper, lowerString, upperString
 
 def integration(reference, lower, upper, numPoints):
     integral = 0.0
@@ -113,14 +137,14 @@ def integration(reference, lower, upper, numPoints):
     area = ((upper - lower) / float(numPoints)) * integral 
     return area
 
-def plot(stringFunctions, numPoints, upper, lower, reference):
+def plot(stringFunctions, numPoints, lower, lowerString, upper, upperString, reference):
     areas = []
 
     for i in range(numPoints):
         areas.append(integration(reference, lower, upper, numPoints))
     
     plt.hist(areas, bins = int(math.sqrt(numPoints)), ec = 'black')
-    plt.title("Distribution of Estimated Areas of " + stringFunctions[reference] + " from " + str(lower) + " to " + str(upper) + ".")
+    plt.title("Distribution of Estimated Areas of " + stringFunctions[reference] + " from " + lowerString + " to " + upperString + ".")
     plt.xlabel("Area (units)")
     plt.ylabel("Number of Calculations Within Bin")
     plt.show()
@@ -137,7 +161,7 @@ def main():
     print("'5' --> Sine")
     print("'6' --> Cosine")
 
-    stringFunctions = {1: "x", 2: "x**2", 3: "x**3", 4: "1/x", 5:"sin(x)", 6:"cos(x)"}
+    stringFunctions = {1: '$x$', 2: "$x^{2}$", 3: "$x^{3}$", 4: "$1/x$", 5:"$sin(x)$", 6:"$cos(x)$"}
 
     choice = input("Choose a number 1-6, inclusive, according to which function you would like to use:")
     while choice not in ["1","2","3","4","5","6"]:
@@ -146,12 +170,14 @@ def main():
     reference = int(choice)
     numPoints = 1000
 
-    lower, upper = limits(reference)
+    lower, upper, lowerString, upperString = limits(reference)
+    print(lowerString)
+    print(upperString)
     while (lower > upper):
-        print("Your upper limit exceeded your lower limit. Let's choose the limits again.")
+        print("Your lower limit exceeded your upper limit. Let's choose the limits again.")
         lower, upper = limits(reference)
     
-    plot(stringFunctions, numPoints, upper, lower, reference)
+    plot(stringFunctions, numPoints, lower, lowerString, upper, upperString, reference)
     
 
 main()

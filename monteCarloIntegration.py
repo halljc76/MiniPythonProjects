@@ -178,4 +178,5 @@ def main():
     plot(stringFunctions, numPoints, lower, lowerString, upper, upperString, reference)
     
 
-main()
+if __name__ == '__main__':
+    main()

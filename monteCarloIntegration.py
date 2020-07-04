@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import random
-import math 
+from random import uniform
+from math import sin, cos, pi, e
 
 
 def function(reference, x):
@@ -61,11 +61,11 @@ def limits(reference):
                 lower = float(lower)
 
                 if irrational == 'pi':
-                    lower = lower * math.pi
+                    lower = lower * irrationalLimits[0]
                     lowerString = '$' + str(integer) + 'pi$'
                     limitChosen = resetLimitChosen
                 elif irrational == 'e':
-                    lower = lower * math.e
+                    lower = lower * irrationalLimits[1]
                     lowerString = '$' + str(integer) + 'e$'
                     limitChosen = resetLimitChosen
             except irrational not in irrationalLimits or TypeError:

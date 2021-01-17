@@ -12,3 +12,6 @@ This README will host small descriptions of what the files below do, as well as 
 
 "Timestamp Folder"
 - Basic software applicable in, for example, YouTube-video making for denoting when edits are necessary.
+
+"RockPaperScissors Folder"
+- A game of Rock-Paper-Scissors. Timeless classic, now on your CLI.

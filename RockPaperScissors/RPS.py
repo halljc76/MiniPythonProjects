@@ -26,9 +26,9 @@ class RPS:
         move = np.random.randint(1,4)
 
         if (move - num == 1) or (move - num == -2):
-            print("Computer won.")
+            print("You won!")
             print("You played {} against CPU's {}".format(self.mvs[move], self.mvs[num]))
-            self.scoreboard(1)
+            self.scoreboard(0)
             self.play()
 
         elif (move == num):
@@ -38,9 +38,9 @@ class RPS:
             self.play()
 
         else:
-            print("You won!")
+            print("Computer won!")
             print("You played {} against CPU's {}".format(self.mvs[move], self.mvs[num]))
-            self.scoreboard(0)
+            self.scoreboard(1)
             self.play()
         
     def scoreboard(self, id):
@@ -55,7 +55,7 @@ class RPS:
         print("The game has concluded.")
         self.printSCB()
         self.cont = False
-      
+    
 def main():
   g = RPS()
   while g.cont:
